@@ -16,7 +16,7 @@ Edit the file `learning_config.json`
 - `-1` save checkpoint every x episodes (with x being a fixed variable specified inside code)
 - `0` no checkpoint
 - `freq` is an integer specifying the checkpoint frequency
-Note: every time a new checkpoint overrides the last one. Before evaluation, the final checkpoint is marked with a label `_trained`
+Note: every time a new checkpoint overrides the last one. Before evaluation, the final checkpoint is marked with a label "_trained"
 
 `client_server' is  a flag specifying if rllib client-server interface has to be created (required `1` for rllib algorithms) --> [int]
 
@@ -68,20 +68,19 @@ plus check specific algorithms parameters
 
 
 ```
-├── example.json
-├── index.html
-├── index.js
-├── package.json
-├── package-lock.json
-├── README.md
-└── src
-    ├── app.js
-    ├── models.js
-    ├── routes.js
-    └── utils
-        ├── another.js
-        ├── constants.js
-        └── index.js
+├── output
+    ├── models
+        ├── cppu0
+        ├── cppu1
+        ├── ...
+    ├── evaluation_info.json
+    ├── extended_info.json
+    ├── skill_history.txt   
+    └── rllib_server_log
+        ├── cppu0_out.log
+        ├── cppu0_err.log
+        ├── ...
+
 ```
 
 
