@@ -66,33 +66,25 @@ plus check specific algorithms parameters
 
 - ##### [OUTPUT]
 
-├── src
-    ├── controller
-    │   ├── **/*.css
-    ├── views
-    ├── model
-    ├── index.js
-  
-├── public
-    ├── css
-    
-    │   ├── **/*.css
-    
-    ├── images
-    
-    ├── js
-    
-    ├── index.html
-    
-├── dist (or build
 
-├── node_modules
-
+```
+├── example.json
+├── index.html
+├── index.js
 ├── package.json
+├── package-lock.json
+├── README.md
+└── src
+    ├── app.js
+    ├── models.js
+    ├── routes.js
+    └── utils
+        ├── another.js
+        ├── constants.js
+        └── index.js
+```
 
-├── package-lock.json 
 
-└── .gitignore
 
 - ##### [HYPERPARAMETER TUNING]
 
