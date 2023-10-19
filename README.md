@@ -6,83 +6,98 @@ Job Shop Scheduling problem with Reinforcement Learning
 
 Edit the file `learning_config.json`
 
-{
-  "episodes" : 16,
-  "training" : 1,
-  "checkpoint" : -1,
-  "client_server" : 0, 
-  "inference_mode" : "local",
-  "algorithm_class" : "Dist_Q",
-  "exploration":"eps-greedy",
-  "off_policy" : 0,
-  "lr" : 0.7,
-  "update_lr": 1,
-  "lr_decreasing_factor": 0.1,
-  "gamma" : 0.98, 
-  "epsilon" : 0.7,
-  "exploration_var_rate" : 0.0,
-  "q_init" : -10000.0,
-  "observation_space_dict" : {"next_skill": true,
-                               "product_name": true,
-                               "cppu_state": false,
-                               "product_skills_state": true,
-                               "counter": false,
-                               "previous_cppu": true}
-}
+`episodes` specifies the number of training episodes (an episode end when production is completed) --> [int]
 
-`features` specifies the features used to create the datasets. The following alternatives are considered in the paper (make sure to use comma-separated values without spaces!)
+`training` is a flag specifying whether or evaluated only --> [int]
+- `1` if the model has to be trained before evaluation
+- `0` evaluation only (requires checkpoint files)
 
-- `pt1,pt2,eta1,eta2,delta_phi` is the standard choice for most of the experiments
+`checkpoint` specifies checkpoint logic --> [int] (DEFAULT -1)
+- `-1` save checkpoint every x episodes (with x being a fixed variable specified inside code)
+- `0` no checkpoint
+- `freq` is an integer specifying the checkpoint frequency
+Note: every time a new checkpoint overrides the last one. Before evaluation, the final checkpoint is marked with a label `_trained`
 
-`cut_mll` specifies the optional cut on the mass feature `mll`:
+`client_server' is  a flag specifying if rllib client-server interface has to be created (required `1` for rllib algorithms) --> [int]
 
-- `None` to apply no cut
-- an integer specifying the cut (e.g., `95` to apply a cut `mll > 95`) 
+`algorithm_class` specifies the name of the RL algorithm used --> [str]
+- `Dist_Q` for distributed Q-learning (custom)
+- `PPO` for Proximal Policy Optimization (rllib)
+- ...
 
-`norm = True/False` is a boolean specifying whether to apply normalization (as described in the paper) to the training set
+`exploration` defines the type of exploration (logic of random action selection)
+- `eps-greedy`
+- `softmax`
 
-`ref_size` is an integer specifying the size of the reference sample ($\mathcal{N_R}$ in the paper)
+`lr` is the learning rate --> [float]
 
-`bkg_exp_size` is an integer specifying the number of expected background events in the data sample ($N(R)$ in the paper)
+`update_lr` is a flag specifying whether the learning rate has to be updated across training episodes --> [0,1]
 
-`sig_type` is a string specifying the type of signal used to create the data sample:
+`lr_decreasing_factor` specifies the decreasing factor of the learning rate (if `update_lr`=1) (e.g., if `lr_decreasing_factor`=0.1 it means the overall decrease of the learning factor is `lr`*0.1
 
-- `no-signal` if the data sample is composed of background events only (sampled from the path `reference`)
-- `resonant` if the data sample contains resonant signal components (the data sample is created by mixing background events from the path `reference` and signal events from the path `signal`)
-- `non-resonant` if the data sample contains non-resonant signal components (the data sample is created by sampling Poisson(`bkg_exp_size` + `sig_exp_size`) events from the path `signal` only)
+`gamma` is the discount factor,
 
-`sig_exp_size` is an integer specifying the number of expected signal events in the data sample ($N(S)$ in the paper)
+`epsilon` is the parameter of the epsilon-greedy exploration
 
-`poisson` is a boolean flag (True/False) specifying whether the background size and the signal size are to extracted from a Poisson distribution with mean `bkg_exp_size`, `sig_exp_size`, respectively
+`tau` is the parameter of the softmax exploration
 
-`n_toy` is an integer specifying the number of toy data samples (number of trainings)
+`exploration_var_rate` is the decreasing rate of the exploration factor (epsilon or tau), with the same logic of `lr_decreasing_factor`
 
-`seed_factor` specifies the seed option for the creation of the reference/data samples. Choose:
+`observation_space_dict` is a dictionary specifying the content of the observation:
+- "next_skill": next skill to be executed,
+- "product_name": name of the product,
+- "cppu_state": flag specifying if the cppu is busy or free,
+- "product_skills_state": one-hot vector specifying all the remaining skills to be executed,
+- "counter": counter of seen observations (retrieved from Q-table when Dist_Q algorithm is used),
+- "previous_cppu": name of cppu that has passed the product
 
-- an integer (e.g., `3` ) to be used as a multiplier to compute the seed (example: with `n_toy=100` the seeds will be `3 * [1, ..., 100]`)
+Specific parameters for `Dist_Q` algorithm:
 
-- `datetime` to generate a random multiplier based on the current time stamp.
+- `q_init` is the number used for uniform initialization of the Q table
 
-  Background events (for both reference and data sample) are extracted at once by means of the multiplier specified here. Signal events are extracted separately with a new seed derived from the other one.
+Specific parameters for all rllib algorithms:
+
+- `inference_mode` specifies if the model has to be copied from server to client for local/remote inference
+- `off_policy` specifies if the training procedure should follow an off-policy approach
+
+plus check specific algorithms parameters
+
+
 
 - ##### [OUTPUT]
 
   ├── src
+  
     ├── controller
+  
     │   ├── **/*.css
+  
     ├── views
+  
     ├── model
+  
     ├── index.js
+  
 ├── public
+
     ├── css
+    
     │   ├── **/*.css
+    
     ├── images
+    
     ├── js
+    
     ├── index.html
+    
 ├── dist (or build
+
 ├── node_modules
+
 ├── package.json
+
 ├── package-lock.json 
+
 └── .gitignore
 
 - ##### [HYPERPARAMETER TUNING]
