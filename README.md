@@ -33,7 +33,7 @@ Note: every time a new checkpoint overrides the last one. Before evaluation, the
 
 `update_lr` is a flag specifying whether the learning rate has to be updated across training episodes --> [0,1]
 
-`lr_decreasing_factor` specifies the decreasing factor of the learning rate (if `update_lr`=1) (e.g., if `lr_decreasing_factor`=0.1 it means the overall decrease of the learning factor is `lr`*0.1
+`lr_decreasing_factor` specifies the decreasing factor of the learning rate (if update_lr=1) (e.g., if lr_decreasing_factor=0.1 it means the overall decrease of the learning factor is `lr`*0.1
 
 `gamma` is the discount factor,
 
@@ -41,7 +41,7 @@ Note: every time a new checkpoint overrides the last one. Before evaluation, the
 
 `tau` is the parameter of the softmax exploration
 
-`exploration_var_rate` is the decreasing rate of the exploration factor (epsilon or tau), with the same logic of `lr_decreasing_factor`
+`exploration_var_rate` is the decreasing rate of the exploration factor (epsilon or tau), with the same logic of lr_decreasing_factor
 
 `observation_space_dict` is a dictionary specifying the content of the observation:
 - "next_skill": next skill to be executed,
@@ -66,20 +66,14 @@ plus check specific algorithms parameters
 
 - ##### [OUTPUT]
 
-  ├── src
-  
+├── src
     ├── controller
-  
     │   ├── **/*.css
-  
     ├── views
-  
     ├── model
-  
     ├── index.js
   
 ├── public
-
     ├── css
     
     │   ├── **/*.css
