@@ -18,6 +18,11 @@ Edit the file `learning_config.json`
 - `freq` is an integer specifying the checkpoint frequency
 Note: every time a new checkpoint overrides the last one. Before evaluation, the final checkpoint is marked with a label "_trained"
 
+`restore_checkpoint` specifies whether last checkpoint has to be restored before training --> [int] (DEFAULT 1)
+- `1` restore only if CRC code coincides (computed on learning_config.json excluding 2 parameters)
+- `0` no restore
+Note: After restoring the number of episodes specified before will be executed during training
+
 `client_server' is  a flag specifying if rllib client-server interface has to be created (required `1` for rllib algorithms) --> [int]
 
 `algorithm_class` specifies the name of the RL algorithm used --> [str]
